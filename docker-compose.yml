@@ -6,9 +6,4 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./src:/app
-      - composer:/app/vendor
-# creating this volumn to overwrite the vendor folder
-# the container will run composer install itself.
-volumes:
-  composer:
+      - ./app:/app

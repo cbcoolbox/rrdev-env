@@ -14,7 +14,7 @@ $worker = new RoadRunner\Http\PSR7Worker($worker, $psrFactory, $psrFactory, $psr
 while ($req = $worker->waitRequest()) {
     try {
         $rsp = new Psr7\Response();
-        $rsp->getBody()->write("hello team!123123");
+        $rsp->getBody()->write("yayaya?");
 
         $worker->respond($rsp);
     } catch (\Throwable $e) {

@@ -1,6 +1,6 @@
 FROM php:7.4-cli
 
-# update then install some needed packages
+# update then install some needed stuff
 RUN apt-get update && apt-get install -y --no-install-recommends \
   wget \
   git \
@@ -29,7 +29,7 @@ RUN wget -O rr.tar.gz "https://github.com/spiral/roadrunner-binary/releases/down
 WORKDIR /app
 
 # need to copy the composer.json file over becuase this is before volumes are accessible...or something?
-COPY ./src/ ./
+COPY ./app/ ./
 
 # installing php libraries
 RUN composer install
