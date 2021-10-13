@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN docker-php-ext-install zip \
   && docker-php-ext-install opcache \
   && docker-php-ext-enable opcache \
-  && docker-php-ext-install sockets
+  && docker-php-ext-install sockets pdo pdo_mysql 
 
 # nice way to get composer installed
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
@@ -29,7 +29,7 @@ RUN wget -O rr.tar.gz "https://github.com/spiral/roadrunner-binary/releases/down
 WORKDIR /app
 
 # need to copy the composer.json file over becuase this is before volumes are accessible...or something?
-COPY ./app/ ./
+COPY . .
 
 # installing php libraries
 RUN composer install
