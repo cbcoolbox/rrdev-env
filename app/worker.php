@@ -4,6 +4,7 @@ use Spiral\RoadRunner;
 use Nyholm\Psr7;
 
 include "vendor/autoload.php";
+include "graph.php";
 
 
 $worker = RoadRunner\Worker::create();
@@ -18,20 +19,29 @@ try {
     $test = $e->getMessage();
 }
 
-
-
 while ($req = $worker->waitRequest()) {
     try {
         $printRow = "";
         $rsp = new Psr7\Response();
-        foreach($dbh->query('SELECT * from products') as $row) {
-            $printRow = $printRow . $row["name"];
+        // foreach($dbh->query('SELECT * from products') as $row) {
+        //     $printRow = $printRow . $row["name"];
+        // }
+        
+
+        // $req->getMethod() / $req->getRequestTarget() 
+        if ($req->getMethod() == "POST" && $req->getRequestTarget() == "/api") {
+            $reqBody = (string)$req->getBody();
+            $rsp->getBody()->write(api($reqBody));
+        } else {
+            $rsp->getBody()->write(file_get_contents("/app/front/index.html"));
         }
-        $rsp->getBody()->write($printRow);
 
         $worker->respond($rsp);
     } catch (\Throwable $e) {
-        $worker->getWorker()->error((string)$e);
+        $errRsp = new Psr7\Response();
+        $errRsp->getBody()->write($e->getMessage());
+        $worker->respond($errRsp->withStatus(500));
+        // $worker->getWorker()->error((string)$e->getMessage());
     }
 }
 

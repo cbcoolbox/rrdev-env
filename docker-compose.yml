@@ -16,7 +16,15 @@ services:
       - 3306:3306
     volumes:
       - ./db/sqldump.sql:/docker-entrypoint-initdb.d/sqldump.sql
-# creating this volumn to overwrite the vendor folder
-# the container will run composer install itself.
+  # rr-compiler:
+  #   image: "rr-compiler"
+  #   build: ./frontend
+  #   volumes:
+  #     - ./frontend:/app
+  #     - node_modules:/app/node_modules
+  #     - ./app/front/js:/app/output/js
+# creating these volumns to overwrite the vendor/nodemodules folder
+# the containers will run composer/npm install itself.
 volumes:
   composer:
+  node_modules:
