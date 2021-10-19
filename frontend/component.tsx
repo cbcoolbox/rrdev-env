@@ -2,7 +2,7 @@ import * as React from "react";
 
 export default class Component extends React.Component <{}> {
     getData() {
-        postData('/api', {"query": "query { echo(message: \"Hello World\")}"}).then(data => {
+        postData('/api', {"query": "query { user(id:2) firstName, lastName, payments { products_id }}"}).then(data => {
             console.log("successful", data);
         }).catch(err => {
             console.log("error", err);

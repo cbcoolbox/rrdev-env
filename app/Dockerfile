@@ -1,4 +1,4 @@
-FROM php:7.4-cli
+FROM php:8.0-cli
 
 # update then install some needed stuff
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -29,10 +29,13 @@ RUN wget -O rr.tar.gz "https://github.com/spiral/roadrunner-binary/releases/down
 WORKDIR /app
 
 # need to copy the composer.json file over becuase this is before volumes are accessible...or something?
-COPY . .
+COPY ./composer.json .
 
 # installing php libraries
 RUN composer install
+
+# copy the rest
+COPY . .
 
 # entry point to the roadrunner executable to start the server.
 ENTRYPOINT ["/usr/local/bin/rr", "serve"]

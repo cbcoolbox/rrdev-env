@@ -2,6 +2,8 @@
 
 use Spiral\RoadRunner;
 use Nyholm\Psr7;
+use GraphQL\Language\Parser;
+use GraphQL\Language\Source;
 
 include "vendor/autoload.php";
 include "graph.php";
@@ -30,8 +32,10 @@ while ($req = $worker->waitRequest()) {
 
         // $req->getMethod() / $req->getRequestTarget() 
         if ($req->getMethod() == "POST" && $req->getRequestTarget() == "/api") {
-            $reqBody = (string)$req->getBody();
-            $rsp->getBody()->write(api($reqBody));
+            $reqBody = json_decode((string)$req->getBody(), true);
+            $documentNode = Parser::parse(new Source($reqBody['query'], 'GraphQL'));
+            //throw new \Exception("promise to execute2: ". $documentNode);
+            $rsp->getBody()->write((string)$documentNode);
         } else {
             $rsp->getBody()->write(file_get_contents("/app/front/index.html"));
         }
