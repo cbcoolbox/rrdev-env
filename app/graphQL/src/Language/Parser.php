@@ -464,7 +464,7 @@ class Parser
 
         return new NameNode([
             'value' => $token->value,
-            'loc'   => $this->loc($token),
+            // 'loc'   => $this->loc($token),
         ]);
     }
 
@@ -485,7 +485,7 @@ class Parser
                 },
                 Token::EOF
             ),
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
         ]);
     }
 
@@ -563,7 +563,7 @@ class Parser
                 'variableDefinitions' => new NodeList([]),
                 'directives'          => new NodeList([]),
                 'selectionSet'        => $this->parseSelectionSet(),
-                'loc'                 => $this->loc($start),
+                // 'loc'                 => $this->loc($start),
             ]);
         }
 
@@ -580,7 +580,7 @@ class Parser
             'variableDefinitions' => $this->parseVariableDefinitions(),
             'directives'          => $this->parseDirectives(false),
             'selectionSet'        => $this->parseSelectionSet(),
-            'loc'                 => $this->loc($start),
+            // 'loc'                 => $this->loc($start),
         ]);
     }
 
@@ -633,7 +633,7 @@ class Parser
                 ? $this->parseValueLiteral(true)
                 : null,
             'directives'   => $this->parseDirectives(true),
-            'loc'          => $this->loc($start),
+            // 'loc'          => $this->loc($start),
         ]);
     }
 
@@ -647,7 +647,7 @@ class Parser
 
         return new VariableNode([
             'name' => $this->parseName(),
-            'loc'  => $this->loc($start),
+            // 'loc'  => $this->loc($start),
         ]);
     }
 
@@ -664,7 +664,7 @@ class Parser
                     },
                     Token::BRACE_R
                 ),
-                'loc'        => $this->loc($start),
+                // 'loc'        => $this->loc($start),
             ]
         );
     }
@@ -704,7 +704,7 @@ class Parser
             'arguments'    => $this->parseArguments(false),
             'directives'   => $this->parseDirectives(false),
             'selectionSet' => $this->peek(Token::BRACE_L) ? $this->parseSelectionSet() : null,
-            'loc'          => $this->loc($start),
+            // 'loc'          => $this->loc($start),
         ]);
     }
 
@@ -740,7 +740,7 @@ class Parser
         return new ArgumentNode([
             'name'  => $name,
             'value' => $value,
-            'loc'   => $this->loc($start),
+            // 'loc'   => $this->loc($start),
         ]);
     }
 
@@ -758,7 +758,7 @@ class Parser
         return new ArgumentNode([
             'name'  => $name,
             'value' => $value,
-            'loc'   => $this->loc($start),
+            // 'loc'   => $this->loc($start),
         ]);
     }
 
@@ -779,7 +779,7 @@ class Parser
             return new FragmentSpreadNode([
                 'name'       => $this->parseFragmentName(),
                 'directives' => $this->parseDirectives(false),
-                'loc'        => $this->loc($start),
+                // 'loc'        => $this->loc($start),
             ]);
         }
 
@@ -787,7 +787,7 @@ class Parser
             'typeCondition' => $hasTypeCondition ? $this->parseNamedType() : null,
             'directives'    => $this->parseDirectives(false),
             'selectionSet'  => $this->parseSelectionSet(),
-            'loc'           => $this->loc($start),
+            // 'loc'           => $this->loc($start),
         ]);
     }
 
@@ -817,7 +817,7 @@ class Parser
             'typeCondition'       => $typeCondition,
             'directives'          => $this->parseDirectives(false),
             'selectionSet'        => $this->parseSelectionSet(),
-            'loc'                 => $this->loc($start),
+            // 'loc'                 => $this->loc($start),
         ]);
     }
 
@@ -870,14 +870,14 @@ class Parser
 
                 return new IntValueNode([
                     'value' => $token->value,
-                    'loc'   => $this->loc($token),
+                    // 'loc'   => $this->loc($token),
                 ]);
             case Token::FLOAT:
                 $this->lexer->advance();
 
                 return new FloatValueNode([
                     'value' => $token->value,
-                    'loc'   => $this->loc($token),
+                    // 'loc'   => $this->loc($token),
                 ]);
             case Token::STRING:
             case Token::BLOCK_STRING:
@@ -888,7 +888,7 @@ class Parser
 
                     return new BooleanValueNode([
                         'value' => $token->value === 'true',
-                        'loc'   => $this->loc($token),
+                        // 'loc'   => $this->loc($token),
                     ]);
                 }
 
@@ -896,14 +896,14 @@ class Parser
                     $this->lexer->advance();
 
                     return new NullValueNode([
-                        'loc' => $this->loc($token),
+                        // 'loc' => $this->loc($token),
                     ]);
                 } else {
                     $this->lexer->advance();
 
                     return new EnumValueNode([
                         'value' => $token->value,
-                        'loc'   => $this->loc($token),
+                        // 'loc'   => $this->loc($token),
                     ]);
                 }
                 break;
@@ -925,7 +925,7 @@ class Parser
         return new StringValueNode([
             'value' => $token->value,
             'block' => $token->kind === Token::BLOCK_STRING,
-            'loc'   => $this->loc($token),
+            // 'loc'   => $this->loc($token),
         ]);
     }
 
@@ -961,7 +961,7 @@ class Parser
         return new ListValueNode(
             [
                 'values' => $this->any(Token::BRACKET_L, $parseFn, Token::BRACKET_R),
-                'loc'    => $this->loc($start),
+                // 'loc'    => $this->loc($start),
             ]
         );
     }
@@ -977,7 +977,7 @@ class Parser
 
         return new ObjectValueNode([
             'fields' => new NodeList($fields),
-            'loc'    => $this->loc($start),
+            // 'loc'    => $this->loc($start),
         ]);
     }
 
@@ -991,7 +991,7 @@ class Parser
         return new ObjectFieldNode([
             'name'  => $name,
             'value' => $this->parseValueLiteral($isConst),
-            'loc'   => $this->loc($start),
+            // 'loc'   => $this->loc($start),
         ]);
     }
 
@@ -1021,7 +1021,7 @@ class Parser
         return new DirectiveNode([
             'name'      => $this->parseName(),
             'arguments' => $this->parseArguments($isConst),
-            'loc'       => $this->loc($start),
+            // 'loc'       => $this->loc($start),
         ]);
     }
 
@@ -1043,7 +1043,7 @@ class Parser
             $this->expect(Token::BRACKET_R);
             $type = new ListTypeNode([
                 'type' => $type,
-                'loc'  => $this->loc($start),
+                // 'loc'  => $this->loc($start),
             ]);
         } else {
             $type = $this->parseNamedType();
@@ -1051,7 +1051,7 @@ class Parser
         if ($this->skip(Token::BANG)) {
             return new NonNullTypeNode([
                 'type' => $type,
-                'loc'  => $this->loc($start),
+                // 'loc'  => $this->loc($start),
             ]);
         }
 
@@ -1064,7 +1064,7 @@ class Parser
 
         return new NamedTypeNode([
             'name' => $this->parseName(),
-            'loc'  => $this->loc($start),
+            // 'loc'  => $this->loc($start),
         ]);
     }
 
@@ -1154,7 +1154,7 @@ class Parser
         return new SchemaDefinitionNode([
             'directives'     => $directives,
             'operationTypes' => $operationTypes,
-            'loc'            => $this->loc($start),
+            // 'loc'            => $this->loc($start),
         ]);
     }
 
@@ -1171,7 +1171,7 @@ class Parser
         return new OperationTypeDefinitionNode([
             'operation' => $operation,
             'type'      => $type,
-            'loc'       => $this->loc($start),
+            // 'loc'       => $this->loc($start),
         ]);
     }
 
@@ -1189,7 +1189,7 @@ class Parser
         return new ScalarTypeDefinitionNode([
             'name'        => $name,
             'directives'  => $directives,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
             'description' => $description,
         ]);
     }
@@ -1212,7 +1212,7 @@ class Parser
             'interfaces'  => $interfaces,
             'directives'  => $directives,
             'fields'      => $fields,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
             'description' => $description,
         ]);
     }
@@ -1288,7 +1288,7 @@ class Parser
             'arguments'   => $args,
             'type'        => $type,
             'directives'  => $directives,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
             'description' => $description,
         ]);
     }
@@ -1333,7 +1333,7 @@ class Parser
             'type'         => $type,
             'defaultValue' => $defaultValue,
             'directives'   => $directives,
-            'loc'          => $this->loc($start),
+            // 'loc'          => $this->loc($start),
             'description'  => $description,
         ]);
     }
@@ -1356,7 +1356,7 @@ class Parser
             'directives'  => $directives,
             'interfaces'  => $interfaces,
             'fields'      => $fields,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
             'description' => $description,
         ]);
     }
@@ -1380,7 +1380,7 @@ class Parser
             'name'        => $name,
             'directives'  => $directives,
             'types'       => $types,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
             'description' => $description,
         ]);
     }
@@ -1420,7 +1420,7 @@ class Parser
             'name'        => $name,
             'directives'  => $directives,
             'values'      => $values,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
             'description' => $description,
         ]);
     }
@@ -1457,7 +1457,7 @@ class Parser
         return new EnumValueDefinitionNode([
             'name'        => $name,
             'directives'  => $directives,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
             'description' => $description,
         ]);
     }
@@ -1478,7 +1478,7 @@ class Parser
             'name'        => $name,
             'directives'  => $directives,
             'fields'      => $fields,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
             'description' => $description,
         ]);
     }
@@ -1562,7 +1562,7 @@ class Parser
         return new SchemaTypeExtensionNode([
             'directives' => $directives,
             'operationTypes' => $operationTypes,
-            'loc' => $this->loc($start),
+            // 'loc' => $this->loc($start),
         ]);
     }
 
@@ -1583,7 +1583,7 @@ class Parser
         return new ScalarTypeExtensionNode([
             'name'       => $name,
             'directives' => $directives,
-            'loc'        => $this->loc($start),
+            // 'loc'        => $this->loc($start),
         ]);
     }
 
@@ -1612,7 +1612,7 @@ class Parser
             'interfaces' => $interfaces,
             'directives' => $directives,
             'fields'     => $fields,
-            'loc'        => $this->loc($start),
+            // 'loc'        => $this->loc($start),
         ]);
     }
 
@@ -1640,7 +1640,7 @@ class Parser
             'directives' => $directives,
             'interfaces' => $interfaces,
             'fields'     => $fields,
-            'loc'        => $this->loc($start),
+            // 'loc'        => $this->loc($start),
         ]);
     }
 
@@ -1667,7 +1667,7 @@ class Parser
             'name'       => $name,
             'directives' => $directives,
             'types'      => $types,
-            'loc'        => $this->loc($start),
+            // 'loc'        => $this->loc($start),
         ]);
     }
 
@@ -1692,7 +1692,7 @@ class Parser
             'name'       => $name,
             'directives' => $directives,
             'values'     => $values,
-            'loc'        => $this->loc($start),
+            // 'loc'        => $this->loc($start),
         ]);
     }
 
@@ -1717,7 +1717,7 @@ class Parser
             'name'       => $name,
             'directives' => $directives,
             'fields'     => $fields,
-            'loc'        => $this->loc($start),
+            // 'loc'        => $this->loc($start),
         ]);
     }
 
@@ -1745,7 +1745,7 @@ class Parser
             'arguments'   => $args,
             'repeatable'  => $repeatable,
             'locations'   => $locations,
-            'loc'         => $this->loc($start),
+            // 'loc'         => $this->loc($start),
         ]);
     }
 
