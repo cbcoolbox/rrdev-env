@@ -489,6 +489,8 @@ class Parser
         ]);
     }
 
+    
+
     /**
      * @return ExecutableDefinitionNode|TypeSystemDefinitionNode
      *

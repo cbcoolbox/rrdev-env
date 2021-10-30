@@ -43,4 +43,8 @@ function api($input) {
     return json_encode($output);
 }
 
+function graphQLToJSON($body) {
+    return "hey girl heyyyyy";
+}
+
 ?>

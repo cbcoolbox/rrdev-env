@@ -115,6 +115,56 @@ abstract class Node
         return $tmp;
     }
 
+    public function toJSON() {
+        $tmp = (array) $this;
+        $count = 0;
+        $return = [];
+        while ($tmp["definitions"][$count]) {
+            switch ($tmp["definitions"][$count]->operation) {
+                case "query":
+                    $return["query"] = $this->recursiveToJSON($tmp["definitions"][$count]->selectionSet, 0);
+                    break;
+            }
+            
+            $count++;
+        }
+
+        return json_encode($return);
+    }
+
+    public function recursiveToJSON($current, $depth) {
+        $count = 0;
+        $stuff = [];
+
+        while($curSelection = $current->selections[$count]) {
+            if ($curSelection->selectionSet) {
+                $stuff["fields"][] = [$curSelection->name->value, $this->recursiveToJSON($curSelection->selectionSet, $depth + 1)];
+            } else {
+                // this is the root field which is also the table at the root depth.
+                if ($count === 0 && $depth === 0) {
+                    $stuff["table"] = $curSelection->name->value;
+                    // move argument parsing to a new function
+                    if (count($curSelection->arguments) > 0) {
+                        $argCount = 0;
+                        while($curArg = $curSelection->arguments[$argCount]) {
+                            switch($curArg->name->value) {
+                                case "id":
+                                    $stuff["where"] = "{$curSelection->name->value}.{$curSelection->name->value}_id = {$curArg->value->value}";
+                                    break;
+                            }
+                            $argCount++;
+                        }
+                    } 
+                } else {
+                    $stuff["fields"][] = [$curSelection->name->value];
+                }
+            }
+            $count++;
+        } 
+
+        return $stuff;
+    }
+
     /**
      * @return mixed[]
      */
